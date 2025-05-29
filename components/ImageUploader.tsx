@@ -16,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { scale } from 'react-native-size-matters';
 
 const { width: screenWidth } = Dimensions.get('window');
-const boxSize = 120;
+const boxSize = scale(95); // Reduced from 120 to 80
 const numColumns = Math.floor(screenWidth / (boxSize + 16));
 
 interface ImageData {
@@ -262,30 +262,34 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    flexWrap: 'wrap',
+    gap: scale(8),
     marginBottom: scale(8),
   },
   imageContainer: {
     position: 'relative',
-    marginRight: scale(8),
+    width: boxSize,
+    height: boxSize,
   },
   imageBox: {
     width: boxSize,
     height: boxSize,
-    borderRadius: scale(8),
+    borderRadius: scale(6),
     borderWidth: 1,
     borderColor: '#D1D5DB',
+    marginBottom: scale(8),
   },
   uploadBox: {
     width: boxSize,
     height: boxSize,
-    borderRadius: scale(8),
+    borderRadius: scale(6),
     borderWidth: 2,
     borderColor: '#9CA3AF',
     borderStyle: 'dashed',
     backgroundColor: '#F3F4F6',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: scale(8),
+    marginBottom: scale(8),
   },
   deleteButton: {
     position: 'absolute',
