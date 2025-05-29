@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         marginRight: moderateScale(10),
     },
     headerText: {
-        fontSize: scale(18),
+        fontSize: scale(16),
         marginLeft: moderateScale(10),
         color: "#3392CC",
         fontFamily: "Manrope-Bold"

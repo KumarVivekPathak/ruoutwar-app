@@ -28,7 +28,7 @@ const CustomInput = ({
                 value={value}
                 onChangeText={onChangeText}
                 placeholder={placeholder}
-                multiline={numberOfLines > 1}
+                multiline
             />
         </View>
     )

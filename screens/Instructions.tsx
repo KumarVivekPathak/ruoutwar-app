@@ -1,114 +1,108 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Dimensions,
+    Image,
+    TouchableOpacity,
+    ScrollView,
+} from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
-import CustomHeader from '../components/CustomHeader';
+import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import CustomInput from '../components/CustomInput';
+
+import CustomHeader from '../components/CustomHeader';
+import CustomButton from '../components/CustomButton';
+import { RootStackNavigation } from '../navigation/types';
+
 import TickImage from '../assets/images/tick.png';
 import CrossImage from '../assets/images/cross.png';
 import WheelChairImage from '../assets/images/wheelchair.png';
 import FireImage from '../assets/images/fire.png';
+import EditImage from '../assets/images/edit.png';
 import MediaImage from '../assets/images/media.png';
-import CustomButton from '../components/CustomButton';
 
 const Instructions = () => {
-    
-    const screenWidth = Dimensions.get('window').width;
+    const navigation = useNavigation<RootStackNavigation>();
+
+    const listItem = [
+        {
+            title: 'Additional Details and Requests',
+            image: EditImage,
+            route: 'AdditionalDetails',
+        },
+        {
+            title: 'Media Files',
+            image: MediaImage,
+            route: 'MediaFiles',
+        },
+    ];
+
+    const buttonItems = [
+        {
+            title: 'All Clear',
+            image: TickImage,
+            onPress: () => navigation.navigate('Refusals'),
+        },
+        {
+            title: 'Refusals',
+            image: CrossImage,
+            onPress: () => navigation.navigate('Refusals'),
+        },
+        {
+            title: 'Person with a Disability',
+            image: WheelChairImage,
+            onPress: () => navigation.navigate('PersonWithDisability'),
+        },
+        {
+            title: 'Is there any Sign of Danger?',
+            image: FireImage,
+            onPress: () => navigation.navigate('SignOfDanger'),
+        },
+    ]
 
     return (
         <View style={styles.screen}>
             <CustomHeader title="Level 1 South 1" />
+            <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 100 }}>
+                {buttonItems.map((item, index) => (
+                    <View style={styles.container} key={index}>
+                        <View style={styles.imageContainer}>
+                            <Image source={item.image} style={styles.image} />
+                            <Text style={styles.title}>{item.title}</Text>
+                        </View>
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity onPress={item.onPress} style={styles.yesButton}>
+                                <Text style={styles.buttonText}>Yes</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.noButton}>
+                                <Text style={styles.buttonText}>No</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                ))}
 
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image source={TickImage} style={styles.image} />
-                    <Text style={styles.title}>All Clear</Text>
-                </View>
-
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.yesButton}>
-                        <Text style={styles.buttonText}>Yes</Text>
+                {listItem.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => navigation.navigate(item.route)}
+                        style={styles.belowContainer}
+                    >
+                        <View style={styles.imageContainer}>
+                            <Image source={item.image} style={styles.image} />
+                            <Text style={styles.title}>{item.title}</Text>
+                        </View>
+                        <View style={styles.iconContainer}>
+                            <FontAwesome5 name="caret-right" size={20} color="black" />
+                        </View>
                     </TouchableOpacity>
+                ))}
 
-                    <TouchableOpacity style={styles.noButton}>
-                        <Text style={styles.buttonText}>No</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.submitButton}>
+                <CustomButton title="SUBMIT" onPress={() => {}} />
             </View>
-
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image source={CrossImage} style={styles.image} />
-                    <Text style={styles.title}>Refusals</Text>
-                </View>
-
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={[styles.yesButton, {backgroundColor: '#FE8D8D'}]}>
-                        <Text style={styles.buttonText}>Yes</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.noButton}>
-                        <Text style={styles.buttonText}>No</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image source={WheelChairImage} style={styles.image} />
-                    <Text style={styles.title}>Persion with a Disability</Text>
-                </View>
-
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={[styles.yesButton, {backgroundColor: '#FE8D8D'}]}>
-                        <Text style={styles.buttonText}>Yes</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.noButton}>
-                        <Text style={styles.buttonText}>No</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image source={FireImage} style={styles.image} />
-                    <Text style={styles.title}>Is there any Sign of Danger?</Text>
-                </View>
-
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={[styles.yesButton, {backgroundColor: '#FE8D8D'}]}>
-                        <Text style={styles.buttonText}>Yes</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.noButton}>
-                        <Text style={styles.buttonText}>No</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <TouchableOpacity style={styles.belowContainer}>
-                <View style={styles.imageContainer}>
-                    <Image source={WheelChairImage} style={styles.image} />
-                    <Text style={styles.title}>Persion with a Disability</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                        <FontAwesome5 name="caret-right" size={20} color="black" />
-                </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.belowContainer}>
-                <View style={styles.imageContainer}>
-                    <Image source={MediaImage} style={styles.image} />
-                    <Text style={styles.title}>Media Files</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                        <FontAwesome5 name="caret-right" size={20} color="black" />
-                </View>
-            </TouchableOpacity>
-
-            <CustomButton title="SUBMIT" onPress={() => {}} style={styles.submitButton} />
-
+            </ScrollView>
         </View>
     );
 };
@@ -116,9 +110,11 @@ const Instructions = () => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        paddingHorizontal: scale(16),
-        paddingTop: verticalScale(16),
         backgroundColor: '#fff',
+    },
+    scrollView: {
+        flex: 1,
+        marginBottom: 10,
     },
     container: {
         borderRadius: scale(20),
@@ -127,14 +123,13 @@ const styles = StyleSheet.create({
         padding: moderateScale(16),
         backgroundColor: '#f9f9f9',
         marginTop: verticalScale(1),
-        justifyContent:'flex-start',
+        justifyContent: 'flex-start',
         marginBottom: verticalScale(13),
-      
     },
     belowContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         borderRadius: scale(15),
         borderWidth: 1,
         borderColor: '#E4E7EC',
@@ -143,10 +138,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
         marginTop: verticalScale(1),
         marginBottom: verticalScale(8),
-        
     },
     image: {
-        backgroundColor:'green',
         width: scale(18),
         height: scale(18),
         resizeMode: 'contain',
@@ -155,14 +148,14 @@ const styles = StyleSheet.create({
     imageContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'flex-start',
-        flex: 1,
+        justifyContent: 'flex-start',
         marginRight: scale(16),
     },
     title: {
         marginLeft: scale(5),
         fontSize: moderateScale(14),
         fontFamily: 'Manrope-Bold',
+        color: '#363636',
     },
     iconContainer: {
         alignItems: 'center',
@@ -198,7 +191,10 @@ const styles = StyleSheet.create({
         fontFamily: 'Manrope-Bold',
     },
     submitButton: {
-        marginTop: verticalScale(10),
+        position: 'absolute',
+        bottom: verticalScale(20),
+        left: moderateScale(16),
+        right: moderateScale(16),
     },
 });
 

@@ -5,21 +5,21 @@ import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 
-const Refusals = () => {
+const PersonWithDesability = () => {
     return (
         <View style={styles.screen}>
-            <CustomHeader title="Refusals" />
+            <CustomHeader title="Person With Disability" />
 
             <View style={styles.contentContainer}>
                 <CustomInput
-                    label="No. of Refusals"
+                    label="No. of Person With Disability"
                     placeholder="2"
                 />
 
                 <CustomInput
-                    label="Location"
-                    placeholder="Toilet"
-                    numberOfLines={4}
+                    label="Description and Location"
+                    placeholder="fire stairs"
+                    numberOfLines={6}
                 />
             </View>
 
@@ -30,7 +30,7 @@ const Refusals = () => {
     )
 }
 
-export default Refusals;
+export default PersonWithDesability;
 
 const styles = StyleSheet.create({
     screen: {

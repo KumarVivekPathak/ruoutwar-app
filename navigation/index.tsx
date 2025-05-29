@@ -12,6 +12,11 @@ import Home from '../screens/Home';
 import PreIncidentLinks from '../screens/PreIncidentLinks';
 import IndicateTypes from '../screens/IndicateTypes';
 import Instructions from '../screens/Instructions';
+import Refusals from '../screens/Refusals';
+import PersonWithDesability from '../screens/PersonWithDesability';
+import AdditionalDetails from '../screens/AdditionalDetails';
+import SignOfDanger from '../screens/SignOfDanger';
+import MediaFiles from '../screens/MediaFiles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -69,6 +74,53 @@ const StackNavigator = () => {
           title: 'Instructions'
         }}
       />
+
+      <Stack.Screen 
+        name="Refusals" 
+        component={Refusals}
+        options={{
+          headerShown: true,
+          title: 'Refusals'
+        }}
+      />
+
+      <Stack.Screen 
+        name="PersonWithDesability" 
+        component={PersonWithDesability}
+        options={{
+          headerShown: true,
+          title: 'Person With Disability'
+        }}
+      />
+
+      <Stack.Screen 
+        name="SignOfDanger" 
+        component={SignOfDanger}
+        options={{
+          headerShown: true,
+          title: 'Sign of Danger'
+        }}
+      />
+
+      <Stack.Screen 
+        name="AdditionalDetails" 
+        component={AdditionalDetails}
+        options={{
+          headerShown: true,
+          title: 'Additional Details and Requests'
+        }}
+      />
+
+<Stack.Screen 
+        name="MediaFiles" 
+        component={MediaFiles}
+        options={{
+          headerShown: true,
+          title: 'Media Files'
+        }}
+      />
+
+
     </Stack.Navigator>
   );
 };
