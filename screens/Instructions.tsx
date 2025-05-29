@@ -44,21 +44,25 @@ const Instructions = () => {
             title: 'All Clear',
             image: TickImage,
             onPress: () => navigation.navigate('Refusals'),
+            colour: '#FF1C1C',
         },
         {
             title: 'Refusals',
             image: CrossImage,
             onPress: () => navigation.navigate('Refusals'),
+            colour: '#fe8d8d',
         },
         {
             title: 'Person with a Disability',
             image: WheelChairImage,
             onPress: () => navigation.navigate('PersonWithDisability'),
+            colour: '#fe8d8d',
         },
         {
             title: 'Is there any Sign of Danger?',
             image: FireImage,
             onPress: () => navigation.navigate('SignOfDanger'),
+            colour: '#fe8d8d',
         },
     ]
 
@@ -73,7 +77,7 @@ const Instructions = () => {
                             <Text style={styles.title}>{item.title}</Text>
                         </View>
                         <View style={styles.buttonRow}>
-                            <TouchableOpacity onPress={item.onPress} style={styles.yesButton}>
+                            <TouchableOpacity onPress={item.onPress} style={[styles.yesButton, { backgroundColor: item.colour }]}>
                                 <Text style={styles.buttonText}>Yes</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.noButton}>
