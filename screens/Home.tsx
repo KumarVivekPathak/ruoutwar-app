@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigation } from '../navigation/types';
 import { TabParamList } from '../navigation/types';
+import { loadFonts } from '../assets/fonts/Fonts';
 
 const Home = () => {
   const navigation = useNavigation<RootStackNavigation>();
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadResources() {
+      await loadFonts();
+      setFontsLoaded(true);
+    }
+    loadResources();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
@@ -22,20 +37,23 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
   title: {
+    color: 'black',
     fontSize: 24,
-    fontWeight: 'bold',
+    
     marginBottom: 20,
+    fontFamily: "Roboto-Bold"
   },
   button: {
     backgroundColor: '#007AFF',
-    padding: 15,
-    borderRadius: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
     width: '100%',
     alignItems: 'center',
   },
