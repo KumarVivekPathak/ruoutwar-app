@@ -5,7 +5,7 @@ import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 
-const PersonWithDesability = () => {
+const PersonWithDisability = () => {
     return (
         <View style={styles.screen}>
             <CustomHeader title="Person With Disability" />
@@ -30,7 +30,7 @@ const PersonWithDesability = () => {
     )
 }
 
-export default PersonWithDesability;
+export default PersonWithDisability;
 
 const styles = StyleSheet.create({
     screen: {

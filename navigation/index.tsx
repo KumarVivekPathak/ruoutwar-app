@@ -17,7 +17,7 @@ import PreIncidentLinks from "../screens/PreIncidentLinks";
 import IndicateTypes from "../screens/IndicateTypes";
 import Instructions from "../screens/Instructions";
 import Refusals from "../screens/Refusals";
-import PersonWithDesability from "../screens/PersonWithDesability";
+import PersonWithDesability from "../screens/PersonWithDisability";
 import AdditionalDetails from "../screens/AdditionalDetails";
 import SignOfDanger from "../screens/SignOfDanger";
 import MediaFiles from "../screens/MediaFiles";
@@ -31,6 +31,7 @@ import ShelterInPlace from "../screens/ShelterInPlace";
 import ManualInstruction from "../screens/ManualInstruction";
 import PreparetoLeave from "../screens/PreparetoLeave";
 import AssemblyArea from "../screens/AssemblyArea";
+import PersonWithDisability from "../screens/PersonWithDisability";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -130,8 +131,8 @@ const StackNavigator = () => {
       />
 
       <Stack.Screen
-        name="PersonWithDesability"
-        component={PersonWithDesability}
+        name="PersonWithDisability"
+        component={PersonWithDisability}
         options={{
           headerShown: true,
           title: "Person With Disability",

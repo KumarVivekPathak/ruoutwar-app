@@ -23,17 +23,16 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
     button: {
-        flexDirection: 'row',
+        backgroundColor: '#3392CC', 
+        paddingHorizontal: moderateScale(20),
+        paddingVertical: verticalScale(12),
+        borderRadius: moderateScale(30), 
         alignItems: 'center',
-        backgroundColor: 'black',
-        paddingVertical: verticalScale(14),
-        paddingHorizontal: scale(24),
-        borderRadius: 999,
-        gap: scale(10),
-      },
-      buttonText: {
-        color: 'white',
+        justifyContent: 'center',
+    },
+    buttonText: {
+        color: '#F6FDFF',
         fontSize: moderateScale(16),
-        fontWeight: '600',
-      },
+        fontFamily: 'Manrope-Bold',
+    },
 })
