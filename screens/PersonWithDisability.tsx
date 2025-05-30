@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
@@ -7,26 +7,34 @@ import CustomButton from "../components/CustomButton";
 
 const PersonWithDisability = () => {
     return (
+        <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0} // Adjust if you have a header
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.screen}>
-            <CustomHeader title="Person With Disability" />
+          <CustomHeader title="Person With Disability" />
 
-            <View style={styles.contentContainer}>
-                <CustomInput
-                    label="No. of Person With Disability"
-                    placeholder="2"
-                />
+          <View style={styles.contentContainer}>
+            <CustomInput
+              label="No. of Person With Disability"
+              placeholder="2"
+            />
 
-                <CustomInput
-                    label="Description and Location"
-                    placeholder="fire stairs"
-                    numberOfLines={6}
-                />
-            </View>
+            <CustomInput
+              label="Description and Location"
+              placeholder="fire stairs"
+              numberOfLines={6}
+            />
+          </View>
 
-            <View style={styles.buttonContainer}>
-                <CustomButton title="SAVE" onPress={() => {}} />
-            </View>
+          <View style={styles.buttonContainer}>
+            <CustomButton title="SAVE" onPress={() => {}} />
+          </View>
         </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
@@ -7,22 +7,29 @@ import CustomButton from "../components/CustomButton";
 
 const AdditionalDetails = () => {
     return (
-        <View style={styles.screen}>
+        <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0} // adjust based on header height
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.screen}>
             <CustomHeader title="Additional Details and Requests" />
-
+  
             <View style={styles.contentContainer}>
-                <CustomInput
-                    label="Notes"
-                    placeholder="Need Ambulance"
-                    numberOfLines={4}
-                />
-
+              <CustomInput
+                label="Notes"
+                placeholder="Need Ambulance"
+                numberOfLines={4}
+              />
             </View>
-
+  
             <View style={styles.buttonContainer}>
-                <CustomButton title="SAVE" onPress={() => {}} />
+              <CustomButton title="SAVE" onPress={() => {}} />
             </View>
-        </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
@@ -7,22 +7,29 @@ import CustomButton from "../components/CustomButton";
 
 const SignOfDanger = () => {
     return (
+        <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.screen}>
-            <CustomHeader title="Sign of Danger" />
+          <CustomHeader title="Sign of Danger" />
 
-            <View style={styles.contentContainer}>
-                <CustomInput
-                    label="Sign of Danger Description"
-                    placeholder="Fire in kitchen"
-                    numberOfLines={4}
-                />
+          <View style={styles.contentContainer}>
+            <CustomInput
+              label="Sign of Danger Description"
+              placeholder="Fire in kitchen"
+              numberOfLines={4}
+            />
+          </View>
 
-            </View>
-
-            <View style={styles.buttonContainer}>
-                <CustomButton title="SAVE" onPress={() => {}} />
-            </View>
+          <View style={styles.buttonContainer}>
+            <CustomButton title="SAVE" onPress={() => {}} />
+          </View>
         </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     )
 }
 
