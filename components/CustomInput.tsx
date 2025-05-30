@@ -9,6 +9,8 @@ interface CustomInputProps {
     onChangeText?: (text: string) => void;
     placeholder?: string;
     style?: any;
+    errorMessage?: string;
+    keyboardType?: string;
 }
 
 const CustomInput = ({
@@ -17,19 +19,25 @@ const CustomInput = ({
     value,
     onChangeText,
     placeholder,
-    style
+    style,
+    errorMessage = '',
+    keyboardType = 'default'
 }: CustomInputProps) => {
     return (
         <View style={[styles.container, style]}>
             <Text style={styles.label}>{label}</Text>
             <TextInput
-                style={styles.input}
+                style={ styles.input}
                 numberOfLines={numberOfLines}
                 value={value}
                 onChangeText={onChangeText}
                 placeholder={placeholder}
                 multiline
+                keyboardType={keyboardType}
             />
+            {errorMessage && (
+                <Text style={styles.errorText}>{errorMessage}</Text>
+            )}
         </View>
     )
 }
@@ -53,6 +61,26 @@ const styles = StyleSheet.create({
         fontSize: scale(16),
         fontFamily: 'Manrope-Medium',
         color: '#363636',
+        borderBottomWidth: 2,
+        borderBottomColor: '#E3E6EB',
+    },
+    invalidInput: {
+        backgroundColor: '#E3E6EB',
+        borderRadius: moderateScale(50),
+        paddingVertical: verticalScale(10),
+        paddingHorizontal: moderateScale(20),
+        fontSize: scale(16),
+        fontFamily: 'Manrope-Medium',
+        color: '#363636',
+        borderBottomWidth: 2,
+        borderBottomColor: '#FF0000',
+    },
+    errorText: {
+        color: '#FF0000',
+        fontSize: scale(12),
+        marginTop: verticalScale(4),
+        marginLeft: moderateScale(10),
+        fontFamily: 'Manrope-Medium',
     },
 });
 

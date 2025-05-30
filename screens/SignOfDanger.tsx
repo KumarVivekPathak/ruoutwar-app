@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 
+
 const SignOfDanger = () => {
+
+  const [signOfDanger, setSignOfDanger] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const handleSignOfDanger = (text: string) => {
+    setSignOfDanger(text);
+    setErrorMessage('');
+  }
+
+  const handleSave = () => {
+    if (signOfDanger.trim() === '') {
+      setErrorMessage('Please enter danger description');
+      return;
+    }
+    console.log("handle save: ", signOfDanger);
+  }
+
+
     return (
-        <KeyboardAvoidingView
+    <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
@@ -21,11 +40,14 @@ const SignOfDanger = () => {
               label="Sign of Danger Description"
               placeholder="Fire in kitchen"
               numberOfLines={4}
+              value={signOfDanger}
+              onChangeText={handleSignOfDanger}
+              errorMessage={errorMessage}
             />
           </View>
 
           <View style={styles.buttonContainer}>
-            <CustomButton title="SAVE" onPress={() => {}} />
+            <CustomButton title="SAVE" onPress={handleSave} />
           </View>
         </View>
       </TouchableWithoutFeedback>
