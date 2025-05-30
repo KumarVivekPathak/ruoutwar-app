@@ -115,10 +115,13 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: '#fff',
+        paddingHorizontal: scale(16),
     },
     scrollView: {
         flex: 1,
+        flexGrow: 1,
         marginBottom: 10,
+        // justifyContent: 'space-between',
     },
     container: {
         borderRadius: scale(20),
@@ -195,10 +198,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Manrope-Bold',
     },
     submitButton: {
-        position: 'absolute',
-        bottom: verticalScale(20),
-        left: moderateScale(16),
-        right: moderateScale(16),
+        // position: 'absolute',
+        // bottom: verticalScale(20),
+        // left: moderateScale(16),
+        // right: moderateScale(16),
+        marginTop: verticalScale(24),
+        // marginBottom: verticalScale(40),
+        // paddingHorizontal: moderateScale(16),
     },
 });
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
@@ -13,7 +13,7 @@ const PersonWithDisability = () => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0} // Adjust if you have a header
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.screen}>
+        <ScrollView style={styles.screen}>
           <CustomHeader title="Person With Disability" />
 
           <View style={styles.contentContainer}>
@@ -32,7 +32,7 @@ const PersonWithDisability = () => {
           <View style={styles.buttonContainer}>
             <CustomButton title="SAVE" onPress={() => {}} />
           </View>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
     )
@@ -43,6 +43,7 @@ export default PersonWithDisability;
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        flexGrow: 1,
         backgroundColor: '#fff',
         paddingHorizontal: scale(16),
         paddingTop: verticalScale(16),
