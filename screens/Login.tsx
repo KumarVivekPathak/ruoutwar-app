@@ -15,12 +15,33 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LogoImage from "../assets/LOGO.png";
 import { scale } from "react-native-size-matters";
 import BottomImage from "../assets/loginBottomImage.png";
+import axios from "axios";
+import { BASE_URL } from "../config";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [userNameError, setUserNameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+
+  const handleLoginAPI = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/login`, {
+        username: "adminuser",
+        password: "Strong@123"
+      });
+  
+      console.log("Login Response:", response.data);
+  
+      // You can store token, navigate, or handle errors here
+      // Example: navigation.navigate("Home");
+  
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+    }
+  };
+  
 
   const handleLogin = () => {
     const isUserNameEmpty = userName.trim() === "";
@@ -30,7 +51,7 @@ const Login = () => {
     setPasswordError(isPasswordEmpty);
 
     if (!isUserNameEmpty && !isPasswordEmpty) {
-      console.log(userName, password);
+      handleLoginAPI();
     }
   };
 
