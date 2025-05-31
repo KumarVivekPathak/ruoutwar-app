@@ -108,11 +108,11 @@ const StackNavigator = () => {
         header: () => <Header />,
       }}
     >
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Login"
         component={Login}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="Tabs"
         component={TabNavigator}

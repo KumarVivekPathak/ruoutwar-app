@@ -1,89 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import axios from 'axios';
+import { BASE_URL } from '../config';
+import { useAuth } from '../context/AuthContext';
 
 type RootStackParamList = {
     IndicateTypes: undefined;
-    Instructions: { incidentType: string };
+    Instructions: { incidentId: string };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'IndicateTypes'>;
 
 type ListItem = {
-    id: number;
+    id: string;
     title: string;
     image: any;
 };
 
+const imageList: any[] = [
+    require('../assets/images/fireandsmoke.png'),
+    require('../assets/images/bombThreat.png'),
+    require('../assets/images/smellOfGas.png'),
+    require('../assets/images/structuralDamage.png'),
+    require('../assets/images/workplace.png'),
+    require('../assets/images/stormDamage.png'),
+    require('../assets/images/medical.png'),
+    require('../assets/images/chemicalLeak.png'),
+    require('../assets/images/externalEmergancy.png'),
+    require('../assets/images/utilitiesOutrage.png'),
+    require('../assets/images/exercise.png'),
+];
+
 const IndicateTypes: React.FC<Props> = ({ navigation }) => {
-    const listData: ListItem[] = [
-        {
-            id: 1,
-            title: "Fire or Smoke",
-            image: require('../assets/images/fireandsmoke.png'),
-        },
-        {
-            id: 2,
-            title: "Bomb Threat",
-            image: require('../assets/images/bombThreat.png'),
-        },
-        {
-            id: 3,
-            title: "Smell of Gas",
-            image: require('../assets/images/smellOfGas.png'),
-        },
-        {
-            id: 4,
-            title: "Structural Damage",
-            image: require('../assets/images/structuralDamage.png'),
-        },
-        {
-            id: 5,
-            title: "Workplace Instruction",
-            image: require('../assets/images/workplace.png'),
-        },
-        {
-            id: 6,
-            title: "Storm Damage",
-            image: require('../assets/images/stormDamage.png'),
-        },
-        {
-            id: 7,
-            title: "Medical",
-            image: require('../assets/images/medical.png'),
-        },
-        {
-            id: 8,
-            title: "Chemical Leak",
-            image: require('../assets/images/chemicalLeak.png'),
-        },
-        {
-            id: 9,
-            title: "External Emergency",
-            image: require('../assets/images/externalEmergancy.png'),
-        },
-        {
-            id: 10,
-            title: "Utilities Outrage",
-            image: require('../assets/images/utilitiesOutrage.png'),
-        },
-        {
-            id: 11,
-            title: "Exercise Only",
-            image: require('../assets/images/exercise.png'),
-        },
-        {
-            id: 12,
-            title: "Test",
-            image: require('../assets/images/test.png'),
-        },
-    ];
+    const { authToken } = useAuth();
+    const [listData, setListData] = useState<ListItem[]>([]);
+
+    useEffect(() => {
+        getTypesDataAPICall();
+    }, []);
+
+    const getTypesDataAPICall = async () => {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+        try {
+            const response = await axios.get(`${BASE_URL}/admin/all-incident-type`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const responseData = response.data;
+            const mappedData: ListItem[] = responseData.map((item: any, index: number) => ({
+                id: item._id,
+                title: item.name,
+                image: imageList[index] || require('../assets/images/tick.png'),
+            }));
+            console.log("mappedData is :: ",mappedData);
+            setListData(mappedData);
+        } catch (error) {
+            console.log("Error fetching incident types:", error);
+        }
+    };
 
     const renderItem = ({ item }: { item: ListItem }) => (
-        <TouchableOpacity style={styles.listItem} onPress={() => navigation.navigate('Instructions', { incidentType: item.title })}>
+        <TouchableOpacity style={styles.listItem} onPress={() => navigation.navigate('Instructions', { incidentId: item.id })}>
             <View style={styles.itemContent}>
                 <Image source={item.image} style={styles.itemImage} />
                 <Text style={styles.itemText}>{item.title}</Text>
@@ -102,8 +85,8 @@ const IndicateTypes: React.FC<Props> = ({ navigation }) => {
                 contentContainerStyle={styles.listContainer}
             />
         </View>
-    )
-}
+    );
+};
 
 export default IndicateTypes;
 
@@ -120,10 +103,7 @@ const styles = StyleSheet.create({
         marginBottom: verticalScale(10),
         elevation: 10,
         shadowColor: 'gray',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
     },
@@ -148,11 +128,5 @@ const styles = StyleSheet.create({
         fontSize: scale(16),
         color: '#363636',
         fontFamily: 'Manrope-Bold',
-    },
-    rightIndicator: {
-        width: scale(24),
-        height: scale(24),
-        backgroundColor: '#000',
-        borderRadius: scale(12),
     },
 });

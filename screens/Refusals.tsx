@@ -13,8 +13,13 @@ import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import { BASE_URL } from "../config";
 
-const Refusals = () => {
+const Refusals = ({ route }: { route: any }) => {
+  const {authToken} = useAuth();
+  const incidentId = route.params?.incidentId;
   const [noOfRefusals, setNoOfRefusals] = useState('');
   const [location, setLocation] = useState('');
   const [noOfRefusalsError, setNoOfRefusalsError] = useState('');
@@ -30,7 +35,7 @@ const Refusals = () => {
     setLocationError('');
   };
 
-  const handleSave = () => {
+  const handleValidate = () => {
     let isValid = true;
 
     if (noOfRefusals.trim() === '') {
@@ -49,12 +54,42 @@ const Refusals = () => {
       isValid = false;
     }
 
-    if (isValid) {
+    return isValid;
+  };
+
+  const handleSave = () => {
+    if (handleValidate()) {
       console.log("No. of Refusals:", parseInt(noOfRefusals, 10));
       console.log("Location:", location);
       Keyboard.dismiss();
+      handleAPICall()
     }
   };
+
+  const handleAPICall =async () => {
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+    const token = authToken;
+    try{
+
+    const formData = new FormData();
+    formData.append("refusal[status]", "true");
+    formData.append("refusal[no_of_refusal]", noOfRefusals);     
+    formData.append("refusal[location]", location);
+
+
+    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data"
+      }
+
+    });
+    console.log("response is :: ", response.data)
+
+    }catch(error){
+      console.log("Error in refusal is  :: ", error)
+    }
+  }
 
   const headerHeight = verticalScale(60);
 

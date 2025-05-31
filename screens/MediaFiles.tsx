@@ -16,6 +16,8 @@ import AudioRecorder from '../components/AudioRecorder';
 import ImageUploader from '../components/ImageUploader';
 import CustomHeader from '../components/CustomHeader';
 import { scale, verticalScale } from 'react-native-size-matters';
+import axios from 'axios';
+import { BASE_URL } from '../config';
 
 interface AudioRecording {
   uri: string;
@@ -24,8 +26,9 @@ interface AudioRecording {
   duration: number;
 }
 
-const MediaFiles: React.FC = () => {
+const MediaFiles: React.FC = ({route}: {route: any}) => {
   const navigation = useNavigation();
+  const incidentId = route.params?.incidentId;
   const [showRecorder, setShowRecorder] = useState(false);
   const [audioRecordings, setAudioRecordings] = useState<AudioRecording[]>([]);
   const [playingSound, setPlayingSound] = useState<Audio.Sound | null>(null);
@@ -52,6 +55,7 @@ const MediaFiles: React.FC = () => {
       duration,
     };
     setAudioRecordings(prev => [...prev, newRecording]);
+    handleAPICall();
   };
 
   const deleteRecording = (index: number) => {
@@ -123,6 +127,37 @@ const MediaFiles: React.FC = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const audioRecordingToBlob = async (recording: AudioRecording): Promise<Blob> => {
+    const response = await fetch(recording.uri);
+    return await response.blob();
+  };
+
+  const handleAPICall =async () => {
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+    const token = authToken;
+    try{
+
+    const formData = new FormData();
+    formData.append("media[status]", "true");
+    for (const recording of audioRecordings) {
+      const blob = await audioRecordingToBlob(recording);
+      formData.append('media[record]', blob, recording.name);
+    }
+
+    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data"
+      }
+
+    });
+    console.log("response is here for additional details:: ", response.data)
+
+  }catch(error){
+    console.log("Error in additional details is  :: ", error)
+  }
+}
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -188,7 +223,7 @@ const MediaFiles: React.FC = () => {
         {/* Image Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Images</Text>
-          <ImageUploader />
+          <ImageUploader incidentId={incidentId} authToken={authToken} />
         </View>
       </ScrollView>
 

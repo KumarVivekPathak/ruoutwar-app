@@ -14,8 +14,13 @@ import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
+import axios from "axios";
+import { BASE_URL } from "../config";
+import { useAuth } from "../context/AuthContext";
 
-const PersonWithDisability = () => {
+const PersonWithDisability = ({ route }: { route: any }) => {
+  const {authToken} = useAuth();
+  const incidentId = route.params?.incidentId;
   const [noOfPersonWithDisability, setNoOfPersonWithDisability] = useState('');
   const [descriptionAndLocation, setDescriptionAndLocation] = useState('');
   const [noOfPersonError, setNoOfPersonError] = useState('');
@@ -31,7 +36,7 @@ const PersonWithDisability = () => {
     setDescriptionError(''); // Clear error on change
   }
 
-  const handleSave = () => {
+  const handleValidate = () => {
     let isValid = true;
 
     // Validate No. of Person With Disability
@@ -52,16 +57,43 @@ const PersonWithDisability = () => {
       isValid = false;
     }
 
-    if (isValid) {
+    return isValid;
+  }
+
+  const handleSave = () => {
+    if (handleValidate()) {
       console.log("No. of Person with Disability:", parseInt(noOfPersonWithDisability, 10));
       console.log("Description and Location:", descriptionAndLocation);
       Keyboard.dismiss(); // Dismiss keyboard on successful save
-      // Proceed with saving data, e.g., API call
+      handleAPICall();
     }
   }
 
-  // Estimate CustomHeader height for keyboardVerticalOffset on iOS
-  // Adjust this value if your CustomHeader has a different fixed height.
+  const handleAPICall =async () => {
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+    const token = authToken;
+    try{
+
+    const formData = new FormData();
+    formData.append("disability[status]", "true");
+    formData.append("disability[no_of_person]", noOfPersonWithDisability);     
+    formData.append("disability[description]", descriptionAndLocation);
+
+
+    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data"
+      }
+
+    });
+    console.log("response is here:: ", response.data)
+
+    }catch(error){
+      console.log("Error in refusal is  :: ", error)
+    }
+  }
+
   const headerHeight = verticalScale(60); // A common estimate for a header height
 
   return (

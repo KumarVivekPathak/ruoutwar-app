@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Tabs: undefined;
   Instructions: undefined;
   IndicateTypes: undefined;
-  Refusals: undefined;
+  Refusals: { incidentId?: string };
   PersonWithDisability: undefined;
   SignOfDanger: undefined;
   AdditionalDetails: undefined;

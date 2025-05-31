@@ -23,8 +23,9 @@ import FireImage from '../assets/images/fire.png';
 import EditImage from '../assets/images/edit.png';
 import MediaImage from '../assets/images/media.png';
 
-const Instructions = () => {
+const Instructions = ({ route }: { route: any }) => {
     const navigation = useNavigation<RootStackNavigation>();
+    const incidentId = route.params?.incidentId;
 
     const listItem = [
         {
@@ -43,13 +44,13 @@ const Instructions = () => {
         {
             title: 'All Clear',
             image: TickImage,
-            onPress: () => navigation.navigate('Refusals'),
+            onPress: () => navigation.navigate('Refusals', { incidentId : incidentId }),
             colour: '#FF1C1C',
         },
         {
             title: 'Refusals',
             image: CrossImage,
-            onPress: () => navigation.navigate('Refusals'),
+            onPress: () => navigation.navigate('Refusals', { incidentId }),
             colour: '#fe8d8d',
         },
         {

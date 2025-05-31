@@ -17,8 +17,13 @@ import { scale } from "react-native-size-matters";
 import BottomImage from "../assets/loginBottomImage.png";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { useAuth } from "../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackNavigation } from "../navigation/types";
 
 const Login = () => {
+   const navigation = useNavigation<RootStackNavigation>();
+  const { setAuthToken } = useAuth();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [userNameError, setUserNameError] = useState(false);
@@ -27,18 +32,18 @@ const Login = () => {
 
   const handleLoginAPI = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/login`, {
+      const response = await axios.post(`${BASE_URL}/admin/login`, {
         username: "adminuser",
         password: "Strong@123"
       });
+      
+      const  token  = response.data.token;
+      // console.log("Login Response:", response.data);
+      console.log("token", token);
+      await setAuthToken(token);
   
-      console.log("Login Response:", response.data);
-  
-      // You can store token, navigate, or handle errors here
-      // Example: navigation.navigate("Home");
-  
-    } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
+    } catch (error: any) {
+      console.log("Login failed:", error.response?.data || error.message);
     }
   };
   
@@ -52,6 +57,7 @@ const Login = () => {
 
     if (!isUserNameEmpty && !isPasswordEmpty) {
       handleLoginAPI();
+      navigation.navigate("Tabs");
     }
   };
 
