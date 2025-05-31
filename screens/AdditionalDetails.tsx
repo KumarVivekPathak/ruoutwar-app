@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
@@ -6,6 +6,23 @@ import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 
 const AdditionalDetails = () => {
+
+  const [notes, setNotes] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const handleNotes = (text: string) => {
+    setNotes(text);
+    setErrorMessage('');
+  }
+
+  const handleSave = () => {
+    if (notes.trim() === '') {
+      setErrorMessage('Please enter notes');
+      return;
+    }
+    console.log("handle save: ", notes);
+  }
+
     return (
         <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -21,11 +38,14 @@ const AdditionalDetails = () => {
                 label="Notes"
                 placeholder="Need Ambulance"
                 numberOfLines={4}
+                value={notes}
+                onChangeText={handleNotes}
+                errorMessage={errorMessage}
               />
             </View>
   
             <View style={styles.buttonContainer}>
-              <CustomButton title="SAVE" onPress={() => {}} />
+              <CustomButton title="SAVE" onPress={handleSave} />
             </View>
           </View>
         </TouchableWithoutFeedback>
