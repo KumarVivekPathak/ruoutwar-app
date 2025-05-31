@@ -32,6 +32,7 @@ import ManualInstruction from "../screens/ManualInstruction";
 import PreparetoLeave from "../screens/PreparetoLeave";
 import AssemblyArea from "../screens/AssemblyArea";
 import PersonWithDisability from "../screens/PersonWithDisability";
+import Login from "../screens/Login";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -107,6 +108,11 @@ const StackNavigator = () => {
         header: () => <Header />,
       }}
     >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="Tabs"
         component={TabNavigator}
