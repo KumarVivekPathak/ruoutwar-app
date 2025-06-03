@@ -25,6 +25,8 @@ const Refusals = ({ route }: { route: any }) => {
   const [noOfRefusalsError, setNoOfRefusalsError] = useState('');
   const [locationError, setLocationError] = useState('');
 
+  console.log("incidentId in refusalss :: ", incidentId)
+
   const handleNoOfRefusals = (text) => {
     setNoOfRefusals(text);
     setNoOfRefusalsError('');
@@ -77,7 +79,7 @@ const Refusals = ({ route }: { route: any }) => {
     formData.append("refusal[location]", location);
 
 
-    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+    const response = await axios.put(`${BASE_URL}/user/incident-type/${incidentId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data"

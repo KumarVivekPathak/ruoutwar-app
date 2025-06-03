@@ -23,7 +23,7 @@ import { RootStackNavigation } from "../navigation/types";
 
 const Login = () => {
    const navigation = useNavigation<RootStackNavigation>();
-  const { setAuthToken } = useAuth();
+  const { setAuthToken, setIncidentTypes } = useAuth();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [userNameError, setUserNameError] = useState(false);
@@ -32,15 +32,33 @@ const Login = () => {
 
   const handleLoginAPI = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/admin/login`, {
-        username: "adminuser",
-        password: "Strong@123"
+      const response = await axios.post(`${BASE_URL}/user/login`, {
+        username: userName,
+        password: password
       });
       
       const  token  = response.data.token;
-      // console.log("Login Response:", response.data);
+      console.log("Login Response:", response.data);
       console.log("token", token);
+      const incidentTypes = response.data.incidentTypes;
+      const incidentTypesId = incidentTypes.map((item : any) =>{
+          const id = item._id;
+          const title = item.incidentTypeSourceId;
+
+        const obj = {
+          id : id,
+          title : title
+        }
+        return obj;
+      })
+      await setIncidentTypes(incidentTypesId);
+
+      console.log("incidentTypesId", incidentTypesId);
+
+
+
       await setAuthToken(token);
+      navigation.navigate("Tabs");
   
     } catch (error: any) {
       console.log("Login failed:", error.response?.data || error.message);
@@ -57,7 +75,7 @@ const Login = () => {
 
     if (!isUserNameEmpty && !isPasswordEmpty) {
       handleLoginAPI();
-      navigation.navigate("Tabs");
+    
     }
   };
 

@@ -447,7 +447,12 @@ interface ImageData {
   uploadError?: boolean;
 }
 
-const ImageUploader: React.FC = ({incidentId, authToken}: {incidentId: string, authToken: string}) => {
+interface ImageUploaderProps {
+  incidentId: string;
+  authToken: string;
+}
+
+const ImageUploader: React.FC<ImageUploaderProps> = ({ incidentId, authToken }) => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [showUploadOptions, setShowUploadOptions] = useState(false);

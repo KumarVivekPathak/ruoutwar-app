@@ -50,19 +50,19 @@ const Instructions = ({ route }: { route: any }) => {
         {
             title: 'Refusals',
             image: CrossImage,
-            onPress: () => navigation.navigate('Refusals', { incidentId }),
+            onPress: () => navigation.navigate('Refusals', { incidentId: incidentId }),
             colour: '#fe8d8d',
         },
         {
             title: 'Person with a Disability',
             image: WheelChairImage,
-            onPress: () => navigation.navigate('PersonWithDisability'),
+            onPress: () => navigation.navigate('PersonWithDisability', { incidentId: incidentId }),
             colour: '#fe8d8d',
         },
         {
             title: 'Is there any Sign of Danger?',
             image: FireImage,
-            onPress: () => navigation.navigate('SignOfDanger'),
+            onPress: () => navigation.navigate('SignOfDanger', { incidentId: incidentId }),
             colour: '#fe8d8d',
         },
     ]
@@ -91,7 +91,7 @@ const Instructions = ({ route }: { route: any }) => {
                 {listItem.map((item, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() => navigation.navigate(item.route)}
+                        onPress={() => navigation.navigate(item.route, {incidentId : incidentId})}
                         style={styles.belowContainer}
                     >
                         <View style={styles.imageContainer}>

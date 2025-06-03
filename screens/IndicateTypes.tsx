@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TabNavigation } from '../navigation/types';
+import { RootStackParamList } from '../navigation/types';
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import axios from 'axios';
 import { BASE_URL } from '../config';
 import { useAuth } from '../context/AuthContext';
 
-type RootStackParamList = {
-    IndicateTypes: undefined;
-    Instructions: { incidentId: string };
+type Props = {
+  navigation: TabNavigation;
+  route: NativeStackScreenProps<RootStackParamList, 'IndicateTypes'>['route'];
 };
-
-type Props = NativeStackScreenProps<RootStackParamList, 'IndicateTypes'>;
 
 type ListItem = {
     id: string;
@@ -36,37 +36,57 @@ const imageList: any[] = [
 ];
 
 const IndicateTypes: React.FC<Props> = ({ navigation }) => {
-    const { authToken } = useAuth();
+    const { authToken, incidentTypes } = useAuth();
     const [listData, setListData] = useState<ListItem[]>([]);
 
     useEffect(() => {
-        getTypesDataAPICall();
+        // getTypesDataAPICall();
+        getIncidentTypesData();
     }, []);
 
-    const getTypesDataAPICall = async () => {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
-        try {
-            const response = await axios.get(`${BASE_URL}/admin/all-incident-type`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+    // const getTypesDataAPICall = async () => {
+    //     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+    //     try {
+    //         const response = await axios.get(`${BASE_URL}/admin/all-incident-type`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
 
-            const responseData = response.data;
-            const mappedData: ListItem[] = responseData.map((item: any, index: number) => ({
-                id: item._id,
-                title: item.name,
-                image: imageList[index] || require('../assets/images/tick.png'),
-            }));
-            console.log("mappedData is :: ",mappedData);
-            setListData(mappedData);
-        } catch (error) {
-            console.log("Error fetching incident types:", error);
-        }
+    //         const responseData = response.data;
+            // const mappedData: ListItem[] = responseData.map((item: any, index: number) => ({
+            //     id: item._id,
+            //     title: item.name,
+            //     image: imageList[index] || require('../assets/images/tick.png'),
+            // }));
+    //         console.log("mappedData is :: ",mappedData);
+    //         setListData(mappedData);
+    //     } catch (error) {
+    //         console.log("Error fetching incident types:", error);
+    //     }
+    // };
+
+    const getIncidentTypesData = async() =>{
+        console.log("incident Types :: ", incidentTypes)
+
+        const mappedData: ListItem[] = incidentTypes.map((item: any, index: number) => ({
+            id: item.id,
+            title: item.title,
+            image: imageList[index] || require('../assets/images/tick.png'),
+        }));
+        console.log("mappedData is :: ",mappedData);
+        setListData(mappedData);
+    }
+
+    const handleListItemPress = (item: ListItem) => {
+        navigation.navigate('Tabs', {
+          screen: 'Instructions',
+          params: { incidentId: item.id }
+        });
     };
 
     const renderItem = ({ item }: { item: ListItem }) => (
-        <TouchableOpacity style={styles.listItem} onPress={() => navigation.navigate('Instructions', { incidentId: item.id })}>
+        <TouchableOpacity style={styles.listItem} onPress={() => handleListItemPress(item)}>
             <View style={styles.itemContent}>
                 <Image source={item.image} style={styles.itemImage} />
                 <Text style={styles.itemText}>{item.title}</Text>

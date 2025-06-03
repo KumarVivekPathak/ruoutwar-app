@@ -30,7 +30,7 @@ const AdditionalDetails = ({ route }: { route: any }) => {
     formData.append("additional[notes]", notes);     
 
 
-    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+    const response = await axios.put(`${BASE_URL}/user/incident-type/${incidentId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data"

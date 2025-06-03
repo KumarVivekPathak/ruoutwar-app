@@ -26,6 +26,8 @@ const PersonWithDisability = ({ route }: { route: any }) => {
   const [noOfPersonError, setNoOfPersonError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
 
+  console.log("here is incddd id :  ", incidentId)
+
   const handleNoOfPersonWithDisability = (text) => {
     setNoOfPersonWithDisability(text);
     setNoOfPersonError(''); // Clear error on change
@@ -70,7 +72,7 @@ const PersonWithDisability = ({ route }: { route: any }) => {
   }
 
   const handleAPICall =async () => {
-    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2MzOGNkMjE0NmZlYWZmZDJjNmQ1ZCIsInJvbGUiOiJ3YXJkZW5yZXRhaWxlciIsImlhdCI6MTc0ODk2ODU2MiwiZXhwIjoxNzQ5NTczMzYyfQ.C-yN2kXhftdd5-9L2Tw1IrWifl_BUcBT2RB7zMWcvk8"
     const token = authToken;
     try{
 
@@ -80,7 +82,7 @@ const PersonWithDisability = ({ route }: { route: any }) => {
     formData.append("disability[description]", descriptionAndLocation);
 
 
-    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+    const response = await axios.put(`${BASE_URL}/user/incident-type/${incidentId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data"

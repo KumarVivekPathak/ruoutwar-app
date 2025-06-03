@@ -18,6 +18,7 @@ import CustomHeader from '../components/CustomHeader';
 import { scale, verticalScale } from 'react-native-size-matters';
 import axios from 'axios';
 import { BASE_URL } from '../config';
+import { useAuth } from '../context/AuthContext';
 
 interface AudioRecording {
   uri: string;
@@ -26,9 +27,10 @@ interface AudioRecording {
   duration: number;
 }
 
-const MediaFiles: React.FC = ({route}: {route: any}) => {
+const MediaFiles: React.FC<{route: any}> = ({route}) => {
   const navigation = useNavigation();
   const incidentId = route.params?.incidentId;
+  const {authToken} = useAuth();
   const [showRecorder, setShowRecorder] = useState(false);
   const [audioRecordings, setAudioRecordings] = useState<AudioRecording[]>([]);
   const [playingSound, setPlayingSound] = useState<Audio.Sound | null>(null);
@@ -132,31 +134,64 @@ const MediaFiles: React.FC = ({route}: {route: any}) => {
     return await response.blob();
   };
 
-  const handleAPICall =async () => {
-    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
-    const token = authToken;
-    try{
+//   const handleAPICall =async () => {
+//     // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
+//     const token = authToken;
+//     try{
 
+//     const formData = new FormData();
+//     formData.append("media[status]", "true");
+//     for (const recording of audioRecordings) {
+//       const blob = await audioRecordingToBlob(recording);
+//       formData.append('media[record]', blob, recording.name);
+//     }
+
+//     const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "multipart/form-data"
+//       }
+
+//     });
+//     console.log("response is here for additional details:: ", response.data)
+
+//   }catch(error){
+//     console.log("Error in additional details is  :: ", error)
+//   }
+// }
+
+const handleAPICall = async () => {
+  const token = authToken;
+
+  try {
     const formData = new FormData();
     formData.append("media[status]", "true");
+
     for (const recording of audioRecordings) {
-      const blob = await audioRecordingToBlob(recording);
-      formData.append('media[record]', blob, recording.name);
+      formData.append('media[record][]', {
+        uri: recording.uri,
+        type: 'audio/x-wav', // or 'audio/m4a', adjust based on your recorder output
+        name: recording.name,
+      });
     }
 
-    const response = await axios.put(`${BASE_URL}/user/incident-type/683650cccdfa52a1340ff3de`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data"
+    const response = await axios.put(
+      `${BASE_URL}/user/incident-type/${incidentId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       }
+    );
 
-    });
-    console.log("response is here for additional details:: ", response.data)
-
-  }catch(error){
-    console.log("Error in additional details is  :: ", error)
+    console.log("response is here for additional details:: ", response.data);
+  } catch (error) {
+    console.log("Error in additional details is  :: ", error.response?.data || error.message);
   }
-}
+};
+
 
   return (
     <SafeAreaView style={styles.container}>
