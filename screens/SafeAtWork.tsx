@@ -4,8 +4,13 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import CustomShareButton from '../components/CustomShareButton';
 import TickImage from '../assets/tick.png';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const SafeAtWork = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <LinearGradient
       colors={['#4ab14f', '#1d5d21']}
@@ -13,12 +18,16 @@ const SafeAtWork = () => {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
+      {/* Top-right Next Button */}
+      <TouchableOpacity 
+        style={styles.nextButton}
+        onPress={() => navigation.navigate('EvacuateNow')} // update with your next screen name
+      >
+        <Text style={styles.nextButtonText}>Next</Text>
+      </TouchableOpacity>
+
       <View style={styles.content}>
-        <Image
-          source={TickImage}
-          style={styles.image}
-          resizeMode="contain"
-        />
+        <Image source={TickImage} style={styles.image} resizeMode="contain" />
 
         <Text style={styles.heading}>SAFE AT WORK</Text>
 
@@ -33,6 +42,7 @@ export default SafeAtWork;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
   },
   content: {
     flex: 1,
@@ -40,6 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: scale(16),
     paddingVertical: verticalScale(24),
+    marginTop: verticalScale(44),
   },
   image: {
     width: scale(200),
@@ -52,5 +63,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: verticalScale(40),
   },
-
+  nextButton: {
+    position: 'absolute',
+    top: verticalScale(20),
+    right: scale(20),
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingVertical: verticalScale(8),
+    paddingHorizontal: scale(16),
+    borderRadius: moderateScale(20),
+    zIndex: 10,
+  },
+  nextButtonText: {
+    color: 'white',
+    fontSize: moderateScale(16),
+    fontWeight: 'bold',
+  },
 });
