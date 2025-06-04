@@ -110,7 +110,7 @@ const PersonWithDisability = ({ navigation, route }: { navigation: any, route: a
     }
   }
 
-  const headerHeight = verticalScale(60); // A common estimate for a header height
+  const headerHeight = 60; // A common estimate for a header height
 
   return (
     <View style={styles.outerContainer}>
@@ -171,9 +171,9 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: scale(16),
-    paddingTop: verticalScale(16),
-    paddingBottom: verticalScale(16), // Ensure content has bottom padding
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 16, // Ensure content has bottom padding
   },
   innerTouchableContainer: {
     flex: 1,
@@ -184,6 +184,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   buttonContainer: {
-    marginTop: verticalScale(20),
+    marginTop: 20,
   },
 });

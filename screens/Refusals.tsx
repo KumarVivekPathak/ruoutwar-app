@@ -109,7 +109,7 @@ const Refusals = ({ navigation, route }: { navigation: any, route: any }) => {
     }
   }
 
-  const headerHeight = verticalScale(60);
+  const headerHeight = 60;
 
   return (
     <View style={styles.outerContainer}>
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: scale(16),
-    paddingTop: verticalScale(16),
-    paddingBottom: verticalScale(16),
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   innerTouchableContainer: {
     flex: 1,
@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   buttonContainer: {
-    marginTop: verticalScale(20),
+    marginTop: 20,
   },
 });
