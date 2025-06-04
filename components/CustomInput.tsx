@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions, KeyboardTypeOptions } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 interface CustomInputProps {
@@ -10,7 +10,8 @@ interface CustomInputProps {
     placeholder?: string;
     style?: any;
     errorMessage?: string;
-    keyboardType?: string;
+    keyboardType?: KeyboardTypeOptions | undefined;
+    multiline?: boolean;
 }
 
 const CustomInput = ({

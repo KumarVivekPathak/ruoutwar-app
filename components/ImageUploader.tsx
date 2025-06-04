@@ -502,8 +502,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ incidentId, authToken }) 
           }
         }
       );
+
+      if (response.status == 200) {
+        console.log(`Upload successful for image ${imageData.id}:`, response.data);
+      }
       
-      console.log(`Upload successful for image ${imageData.id}:`, response.data);
       
       // Update state to remove uploading indicator
       setImages(prev => 

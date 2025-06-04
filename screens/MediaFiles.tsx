@@ -185,6 +185,13 @@ const handleAPICall = async () => {
         },
       }
     );
+    if (response.status === 200) {
+      console.log("Media files saved successfully");
+      setAudioRecordings([]);
+      Alert.alert("Success", "Media files saved successfully", [
+        { text: "OK", onPress: () => navigation.goBack() }
+      ]);
+    }
 
     console.log("response is here for additional details:: ", response.data);
   } catch (error) {

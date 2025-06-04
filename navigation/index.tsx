@@ -34,6 +34,7 @@ import AssemblyArea from "../screens/AssemblyArea";
 import PersonWithDisability from "../screens/PersonWithDisability";
 import Login from "../screens/Login";
 import { useAuth } from "../context/AuthContext";
+import { StatusBar } from "expo-status-bar";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -221,7 +222,7 @@ const StackNavigator = () => {
         name="SafeAtWork"
         component={SafeAtWork}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Safe At Work",
         }}
       />
@@ -230,7 +231,7 @@ const StackNavigator = () => {
         name="EvacuateNow"
         component={EvacuateNow}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Evacuate Now",
         }}
       />
@@ -239,7 +240,7 @@ const StackNavigator = () => {
         name="ShelterInPlace"
         component={ShelterInPlace}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Shelter In Place",
         }}
       />
@@ -248,7 +249,7 @@ const StackNavigator = () => {
         name="PreparetoLeave"
         component={PreparetoLeave}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Prepare to Leave",
         }}
       />
@@ -257,7 +258,7 @@ const StackNavigator = () => {
         name="ManualInstruction"
         component={ManualInstruction}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Manual Instruction",
         }}
       />
@@ -268,6 +269,11 @@ const StackNavigator = () => {
 const AppNavigator = () => {
   return (
     <NavigationContainer>
+      <StatusBar 
+        style="auto"
+        backgroundColor="#fff"
+        translucent={false}
+      />
       <StackNavigator />
     </NavigationContainer>
   );

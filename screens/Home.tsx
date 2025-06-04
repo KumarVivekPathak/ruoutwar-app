@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
+    paddingHorizontal: 20,
     justifyContent: 'space-between',
   },
   content: {
-    marginTop: 40,
+    // marginTop: 40,
   },
   title: {
     color: '#3392CC',

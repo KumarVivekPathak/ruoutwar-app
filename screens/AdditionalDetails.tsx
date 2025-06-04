@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
@@ -8,7 +8,7 @@ import axios from "axios";
 import { BASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 
-const AdditionalDetails = ({ route }: { route: any }) => {
+const AdditionalDetails = ({ navigation, route }: { navigation: any, route: any }) => {
 
   const {authToken} = useAuth();
   const incidentId = route.params?.incidentId;
@@ -37,6 +37,17 @@ const AdditionalDetails = ({ route }: { route: any }) => {
       }
 
     });
+
+    if( response.status === 200) {
+      console.log("Additional details saved successfully");
+      setNotes('');
+      setErrorMessage('');
+      Alert.alert("Success", "Additional details saved successfully", [
+        { text: "OK", onPress: () => {
+          navigation.goBack()
+        }}
+      ]);
+    }
     console.log("response is here for additional details:: ", response.data)
 
     }catch(error){

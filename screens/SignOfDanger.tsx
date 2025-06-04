@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Alert } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
@@ -39,10 +39,17 @@ const SignOfDanger = ({ route }: { route: any }) => {
       }
 
     });
-    console.log("response is here for danger:: ", response.data)
-    if(response.data._id){
-      navigation.goBack();
+    if( response.status === 200) {
+      console.log("Sign of danger saved successfully");
+      setSignOfDanger('');
+      setErrorMessage('');
+      Alert.alert("Success", "Sign of danger saved successfully", [
+        { text: "OK", onPress: () => {
+          navigation.goBack()
+        }}
+      ]);
     }
+    console.log("response is here for danger:: ", response.data)
     
 
     }catch(error){

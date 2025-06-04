@@ -35,9 +35,10 @@ const imageList: any[] = [
     require('../assets/images/exercise.png'),
 ];
 
-const IndicateTypes: React.FC<Props> = ({ navigation }) => {
+const IndicateTypes = ({ navigation }: {navigation : any}) => {
     const { authToken, incidentTypes } = useAuth();
     const [listData, setListData] = useState<ListItem[]>([]);
+    console.log("Incident Types in IndicateTypes :: ", incidentTypes);
 
     useEffect(() => {
         // getTypesDataAPICall();
@@ -79,10 +80,8 @@ const IndicateTypes: React.FC<Props> = ({ navigation }) => {
     }
 
     const handleListItemPress = (item: ListItem) => {
-        navigation.navigate('Tabs', {
-          screen: 'Instructions',
-          params: { incidentId: item.id }
-        });
+        console.log("Selected Item :: ", item);
+        navigation.navigate('Instructions', { incidentId: item.id });
     };
 
     const renderItem = ({ item }: { item: ListItem }) => (

@@ -7,7 +7,8 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
@@ -17,7 +18,7 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { BASE_URL } from "../config";
 
-const Refusals = ({ route }: { route: any }) => {
+const Refusals = ({ navigation, route }: { navigation: any, route: any }) => {
   const {authToken} = useAuth();
   const incidentId = route.params?.incidentId;
   const [noOfRefusals, setNoOfRefusals] = useState('');
@@ -86,6 +87,21 @@ const Refusals = ({ route }: { route: any }) => {
       }
 
     });
+
+    if (response.status === 200) {
+      console.log("Refusal data saved successfully");
+      setNoOfRefusals('');
+      setLocation('');
+      setNoOfRefusalsError('');
+      setLocationError('');
+      Alert.alert("Success", "Refusal data saved successfully", [
+        { text: "OK", onPress: () => {
+          navigation.goBack()
+        }}
+      ]);
+    } else {
+      console.log("Failed to save refusal data");
+    }
     console.log("response is :: ", response.data)
 
     }catch(error){

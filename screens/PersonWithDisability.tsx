@@ -8,7 +8,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView, // Import ScrollView
-  StatusBar, // For potential StatusBar height if needed for offset
+  StatusBar,
+  Alert, // For potential StatusBar height if needed for offset
 } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import CustomHeader from "../components/CustomHeader";
@@ -18,7 +19,7 @@ import axios from "axios";
 import { BASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 
-const PersonWithDisability = ({ route }: { route: any }) => {
+const PersonWithDisability = ({ navigation, route }: { navigation: any, route: any }) => {
   const {authToken} = useAuth();
   const incidentId = route.params?.incidentId;
   const [noOfPersonWithDisability, setNoOfPersonWithDisability] = useState('');
@@ -89,6 +90,19 @@ const PersonWithDisability = ({ route }: { route: any }) => {
       }
 
     });
+
+    if( response.status === 200) {
+      console.log("Person with disability details saved successfully");
+      setNoOfPersonWithDisability('');
+      setDescriptionAndLocation('');
+      setNoOfPersonError('');
+      setDescriptionError('');
+      Alert.alert("Success", "Person with disability details saved successfully", [
+        { text: "OK", onPress: () => {
+          navigation.goBack();
+        }}
+      ]);
+    }
     console.log("response is here:: ", response.data)
 
     }catch(error){
