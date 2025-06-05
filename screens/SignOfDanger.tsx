@@ -23,7 +23,6 @@ const SignOfDanger = ({ route }: { route: any }) => {
   }
 
   const handleAPICall =async () => {
-    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzI1NTk3MjAzYTBmYjIyNzc4ZmFmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODEzMjU2M30.JhQaUrq8woPnyRXwrw2gV70HtwhP3XcIhsAlzj1i10w"
     const token = authToken;
     try{
 
@@ -67,12 +66,14 @@ const SignOfDanger = ({ route }: { route: any }) => {
     console.log("handle save: ", signOfDanger);
   }
 
+    const headerHeight = 60;
+
 
     return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? headerHeight + 20 : 0}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.screen}>
@@ -104,12 +105,12 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 16,
         paddingTop: 16,
     },
     contentContainer: {
         flex: 1,
-        padding: 16
+        padding: 16,
+        paddingHorizontal: 16,
     },
     buttonContainer: {
         padding: 16,

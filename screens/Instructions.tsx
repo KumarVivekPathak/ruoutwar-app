@@ -116,12 +116,12 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 16,
     },
     scrollView: {
         flex: 1,
         flexGrow: 1,
         marginBottom: 10,
+        paddingHorizontal: 16,
         // justifyContent: 'space-between',
     },
     container: {

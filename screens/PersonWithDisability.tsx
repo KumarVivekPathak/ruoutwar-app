@@ -73,7 +73,6 @@ const PersonWithDisability = ({ navigation, route }: { navigation: any, route: a
   }
 
   const handleAPICall =async () => {
-    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2MzOGNkMjE0NmZlYWZmZDJjNmQ1ZCIsInJvbGUiOiJ3YXJkZW5yZXRhaWxlciIsImlhdCI6MTc0ODk2ODU2MiwiZXhwIjoxNzQ5NTczMzYyfQ.C-yN2kXhftdd5-9L2Tw1IrWifl_BUcBT2RB7zMWcvk8"
     const token = authToken;
     try{
 
@@ -117,12 +116,13 @@ const PersonWithDisability = ({ navigation, route }: { navigation: any, route: a
       <CustomHeader title="Person With Disability" />
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? headerHeight : 0}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? headerHeight + 20 : 0}
       >
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={true}
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.innerTouchableContainer}>
@@ -170,20 +170,22 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 16, // Ensure content has bottom padding
+    paddingBottom: Platform.OS === 'ios' ? 100 : 80,
   },
   innerTouchableContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    minHeight: 400,
   },
   contentContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
+    marginBottom: 20,
   },
   buttonContainer: {
     marginTop: 20,
+    marginBottom: 20,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
 });

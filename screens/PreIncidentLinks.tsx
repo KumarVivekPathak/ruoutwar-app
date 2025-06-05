@@ -19,7 +19,7 @@ const PreIncidentLinks = () => {
     return (
         <View style={styles.screen}>
             <CustomHeader title="Pre Incident Links" />
-            <ScrollView>
+            <ScrollView style={{paddingHorizontal: 16}}>
             <View style={styles.card}>
                 <Text style={styles.stepTitle}>STEP 1</Text>
                 <Text style={styles.description}>
@@ -67,8 +67,7 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 16,
-        paddingTop: 16,
+        // paddingTop: 16,
     },
     card: {
         backgroundColor: '#f9f9f9',
